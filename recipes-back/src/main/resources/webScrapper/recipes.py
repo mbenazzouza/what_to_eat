@@ -4,6 +4,9 @@ import os
 from bs4 import BeautifulSoup
 import requests
 
+from bitly_url import BitlyAPI
+from database import Database
+
 
 class Recipes:
 
@@ -24,6 +27,18 @@ class Recipes:
             dico['Name'] = recipe_name
             dico['Category'] = recipe_category
             dico['URL'] = recipe_url[:-1]
+
+            # converting urls to bitly in order to avoid too long urls for column limit
+            # url = BitlyAPI.convert_long_url_to_bitly(recipe_url[:-1])
+            # setting-up database for insert
+            database = Database('localhost', 'root', 'OUOJeSxs7m1C0OgKGp2Q*', 'what_to_eat')
+            select_recipe = "SELECT * FROM recipe WHERE name = %s OR url = %s;"
+            select_values = (recipe_name, recipe_url[:-1])
+            recipes = database.select(select_recipe, select_values)
+            if not recipes:
+                insert_recipe = "INSERT INTO recipe (name, url, category) VALUES (%s, %s, %s);"
+                insert_values = (recipe_name, recipe_url[:-1], recipe_category)
+                database.insert(insert_recipe, insert_values)
 
             self.recipes_dico[str(i)] = dico
 
@@ -59,7 +74,7 @@ class Recipes:
             os.remove("recipes.json")
         except OSError:
             pass
-        file_name = (url.split('www.'))[1].split('.com')[0]+'-recipes.json'
+        file_name = (url.split('www.'))[1].split('.com')[0] + '-recipes.json'
         with open(file_name, 'w') as convert_file:
             convert_file.write(json.dumps(self.recipes_dico))
         return file_name

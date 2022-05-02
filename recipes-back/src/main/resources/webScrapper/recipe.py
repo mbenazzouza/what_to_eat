@@ -3,8 +3,12 @@ import json
 from bs4 import BeautifulSoup
 import requests
 
+from database import Database
 
-def get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name):
+
+def get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name, url):
+    database = Database('localhost', 'root', 'OUOJeSxs7m1C0OgKGp2Q*', 'what_to_eat')
+    measure = ''
     if not ingredient_name.text[0].isalpha():
         chars = ingredient_name.text.split(' ')
         measure = ' '.join(chars[0:2])
@@ -16,6 +20,16 @@ def get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name):
         ingredient_name_without_measure = ingredient_name.text
         ingredient_dico['name'] = ingredient_name_without_measure
         dico[i] = ingredient_dico
+
+    # To reference the recipe id, we need to find the recipe using its url
+    select_recipe_query = "SELECT * FROM recipe WHERE url = %s;"
+    select_values = [url]
+    recipe_id = database.select(select_recipe_query, select_values)[0][0]
+    # we then save data
+    insert_recipe = "INSERT INTO ingredient (name, measure, recipeid) VALUES (%s, %s, %s);"
+    insert_values = (ingredient_name_without_measure, measure, recipe_id)
+    database.insert(insert_recipe, insert_values)
+
 
 
 def get_subtitles(dico, ingredients, subsection_ingredients, subtitles):
@@ -42,7 +56,7 @@ class Recipe:
 
                 for ingredient_name in ingredient:
                     ingredient_dico = {}
-                    get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name)
+                    get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name, self.url)
 
                     i += 1
                     self.recipe_dico['ingredients'] = dico
