@@ -30,7 +30,7 @@ class Recipe:
             # converting urls to bitly in order to avoid too long urls for column limit
             # url = BitlyAPI.convert_long_url_to_bitly(recipe_url[:-1])
             # setting-up database for insert
-            database = Database('localhost', 'root', 'OUOJeSxs7m1C0OgKGp2Q*', 'what_to_eat')
+            database = Database('localhost', '', '', 'whSat_to_eat')
             select_recipe = "SELECT * FROM recipe WHERE name = %s OR url = %s;"
             select_values = (recipe_name, recipe_url[:-1])
             recipes = database.select(select_recipe, select_values)
@@ -80,7 +80,7 @@ class Recipe:
 
     @staticmethod
     def get_all_recipes():
-        database = Database('localhost', 'root', 'OUOJeSxs7m1C0OgKGp2Q*', 'what_to_eat')
+        database = Database('localhost', '', '', 'what_to_eat')
         select_recipe = "SELECT * FROM recipe;"
         recipes = database.select(select_recipe, [])
         return recipes

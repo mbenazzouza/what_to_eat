@@ -7,9 +7,8 @@ from database import Database
 
 
 def get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name, url):
-    database = Database('localhost', 'root', 'OUOJeSxs7m1C0OgKGp2Q*', 'what_to_eat')
+    database = Database('localhost', '', '', 'what_to_eat')
     measure = ''
-    print(ingredient_name)
     if ingredient_name.text and not ingredient_name.text[0].isalpha():
         chars = ingredient_name.text.split(' ')
         measure = ' '.join(chars[0:2])
@@ -22,7 +21,7 @@ def get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name, u
         ingredient_dico['name'] = ingredient_name_without_measure
         dico[i] = ingredient_dico
 
-    save_ingredients(database, ingredient_name_without_measure, measure, url)
+    # save_ingredients(database, ingredient_name_without_measure, measure, url)
 
 
 def save_ingredients(database, ingredient_name_without_measure, measure, url):
@@ -30,15 +29,12 @@ def save_ingredients(database, ingredient_name_without_measure, measure, url):
     select_recipe_query = "SELECT * FROM recipe WHERE url = %s;"
     select_values = [url]
     recipe_id = database.select(select_recipe_query, select_values)[0][0]
-    # Check the ingredient has not been inserted before
-    select_ingredients = "SELECT * FROM ingredient WHERE name = %s OR recipeid = %s;"
-    select_ingredients_values = (ingredient_name_without_measure, recipe_id)
-    ingredients = database.select(select_ingredients, select_ingredients_values)
-    if not ingredients:
-        # we then save data if not
-        insert_recipe = "INSERT INTO ingredient (name, measure, recipeid) VALUES (%s, %s, %s);"
-        insert_values = (ingredient_name_without_measure, measure, recipe_id)
-        database.insert(insert_recipe, insert_values)
+    # we then save data if not
+    insert_recipe = """INSERT into ingredient  (name, measure, recipeid, subtitle) 
+                        VALUES (%s, %s, %s, %s)
+                        ON DUPLICATE KEY UPDATE name = %s, measure= %s, recipeid = %s, subtitle = %s;"""
+    insert_values = (ingredient_name_without_measure, measure, recipe_id)
+    database.insert(insert_recipe, insert_values)
 
 
 def get_subtitles(dico, ingredients, subsection_ingredients, subtitles):
