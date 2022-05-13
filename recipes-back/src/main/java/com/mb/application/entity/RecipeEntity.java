@@ -1,96 +1,54 @@
 package com.mb.application.entity;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-/**
- * The persistent class for the recipe database table.
- * 
- */
 @Entity
 @Table(name = "recipe")
-public class RecipeEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class RecipeEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(unique = true, nullable = false)
-	private Integer id;
+    @Column(name = "name", nullable = false, length = 100)
+    private String name;
 
-	@Column(length = 2147483647)
-	private String description;
+    @Column(name = "url", length = 500)
+    private String url;
 
-	private byte[] image;
+    @Column(name = "category", nullable = false, length = 100)
+    private String category;
 
-	@Column(nullable = false, length = 2147483647)
-	private String name;
+    public Integer getId() {
+        return id;
+    }
 
-	// bi-directional many-to-one association to Ingredient
-	@OneToMany(mappedBy = "recipe")
-	private List<IngredientEntity> ingredients;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public RecipeEntity() {
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Integer getId() {
-		return this.id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public byte[] getImage() {
-		return this.image;
-	}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<IngredientEntity> getIngredients() {
-		return this.ingredients;
-	}
-
-	public void setIngredients(List<IngredientEntity> ingredients) {
-		this.ingredients = ingredients;
-	}
-
-	public IngredientEntity addIngredient(IngredientEntity ingredient) {
-		getIngredients().add(ingredient);
-		ingredient.setRecipe(this);
-
-		return ingredient;
-	}
-
-	public IngredientEntity removeIngredient(IngredientEntity ingredient) {
-		getIngredients().remove(ingredient);
-		ingredient.setRecipe(null);
-
-		return ingredient;
-	}
 }
