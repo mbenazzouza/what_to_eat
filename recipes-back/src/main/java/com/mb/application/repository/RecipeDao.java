@@ -1,9 +1,8 @@
 package com.mb.application.repository;
 
+import com.mb.application.entity.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.mb.application.entity.RecipeEntity;
 
 
 @Repository
