@@ -23,21 +23,24 @@ public class RecipeEntity {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	// bi-directional many-to-one association to Ingredient
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "recipeid")
+	public List<IngredientEntity> ingredients;
+
+	@Column
+	private String category;
+
+	@Column
+	private String url;
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
     public void setUrl(String url) {
         this.url = url;
@@ -51,4 +54,39 @@ public class RecipeEntity {
         this.category = category;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUrl() {
+		return this.url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getCategory() {
+		return this.category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public List<IngredientEntity> getIngredients() {
+		return this.ingredients;
+	}
+
+	public void setIngredients(List<IngredientEntity> ingredients) {
+		this.ingredients = ingredients;
+	}
 }

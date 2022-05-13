@@ -5,39 +5,40 @@ info:
     This is Swagger UI environment generated for the TMF Recipe specification
   version: '4.0'
 servers:
-- url: 'http://serverRoot/mb/v1'
+  - url: 'http://serverRoot/mb/v1'
 tags:
-- name: recipe
-- name: ingredient
+  - name: recipe
+  - name: ingredient
+  - name: instruction
 paths:
   /recipes:
     get:
       tags:
-      - recipe
+        - recipe
       summary: List or find recipe objects
       description: This operation list or find recipe entities
       operationId: listRecipes
       parameters:
-      - name: fields
-        in: query
-        description: Comma-separated properties to be provided in response
-        schema:
-          type: string
-      - name: offset
-        in: query
-        description: Requested index for start of resources to be provided in response
-        schema:
-          type: integer
-      - name: limit
-        in: query
-        description: Requested number of resources to be provided in response
-        schema:
-          type: integer
-      - name: name
-        in: query
-        description: Name of the recipe
-        schema:
-          type: string
+        - name: fields
+          in: query
+          description: Comma-separated properties to be provided in response
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: Requested index for start of resources to be provided in response
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Requested number of resources to be provided in response
+          schema:
+            type: integer
+        - name: name
+          in: query
+          description: Name of the recipe
+          schema:
+            type: string
       responses:
         '200':
           description: Success
@@ -100,7 +101,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-      - recipe
+        - recipe
       summary: creates partially a recipe
       description: This operation updates partially a recipe entity.
       operationId: createRecipe
@@ -160,21 +161,21 @@ paths:
             application/json;charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-codegen-request-body-name: Recipes                
+      x-codegen-request-body-name: Recipes
   '/recipes/{id}':
     get:
       tags:
-      - recipe
+        - recipe
       summary: Retrieves a recipe by ID
       description: This operation retrieves a recipe entity.
       operationId: retrieveRecipe
       parameters:
-      - name: id
-        in: path
-        description: Identifier of the recipe
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: Identifier of the recipe
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Success
@@ -226,17 +227,17 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-      - recipe
+        - recipe
       summary: Updates partially a recipe
       description: This operation updates partially a recipe entity.
       operationId: updateRecipe
       parameters:
-      - name: id
-        in: path
-        description: Identifier of the recipe
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: Identifier of the recipe
+          required: true
+          schema:
+            type: string
       requestBody:
         description: The recipe to be updated
         content:
@@ -296,17 +297,17 @@ paths:
       x-codegen-request-body-name: Recipe
     delete:
       tags:
-      - recipe
+        - recipe
       summary: Delete a recipe
       description: This operation deletes a recipe entity.
       operationId: deleteRecipe
       parameters:
-      - name: id
-        in: path
-        description: Identifier of the component ccomptcaa
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: Identifier of the component ccomptcaa
+          required: true
+          schema:
+            type: string
       responses:
         '204':
           description: Deleted
@@ -357,36 +358,36 @@ paths:
   /ingredients:
     get:
       tags:
-      - ingredient
+        - ingredient
       summary: List or find ingredients
       description: This operation list or find ingredient entities
       operationId: listIngredients
       parameters:
-      - name: fields
-        in: query
-        description: Comma-separated properties to be provided in response
-        schema:
-          type: string
-      - name: offset
-        in: query
-        description: Requested index for start of resources to be provided in response
-        schema:
-          type: integer
-      - name: limit
-        in: query
-        description: Requested number of resources to be provided in response
-        schema:
-          type: integer
-      - name: name
-        in: query
-        description: Name of the ingredient to be provided in response
-        schema:
-          type: string
-      - name: recipeId
-        in: query
-        description: Id of the recipe to be provided in response
-        schema:
-          type: integer
+        - name: fields
+          in: query
+          description: Comma-separated properties to be provided in response
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: Requested index for start of resources to be provided in response
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Requested number of resources to be provided in response
+          schema:
+            type: integer
+        - name: name
+          in: query
+          description: Name of the ingredient to be provided in response
+          schema:
+            type: string
+        - name: recipeId
+          in: query
+          description: Id of the recipe to be provided in response
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -449,7 +450,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-      - ingredient
+        - ingredient
       summary: creates an ingredient
       description: This operation creates an ingredient entity.
       operationId: createIngredient
@@ -513,17 +514,17 @@ paths:
   '/ingredients/{id}':
     get:
       tags:
-      - ingredient
+        - ingredient
       summary: Retrieves an ingredient by ID
       description: This operation retrieves a ingredient entity.
       operationId: retrieveIngredient
       parameters:
-      - name: id
-        in: path
-        description: Identifier of the ingredient
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: Identifier of the ingredient
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Success
@@ -575,17 +576,17 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-      - ingredient
+        - ingredient
       summary: Updates partially a ingredient
       description: This operation updates partially a ingredient entity.
       operationId: updateIngredient
       parameters:
-      - name: id
-        in: path
-        description: Identifier of the ingredient
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: Identifier of the ingredient
+          required: true
+          schema:
+            type: string
       requestBody:
         description: The ingredient to be updated
         content:
@@ -645,17 +646,17 @@ paths:
       x-codegen-request-body-name: Ingredient
     delete:
       tags:
-      - ingredient
+        - ingredient
       summary: Delete a ingredient
       description: This operation deletes a ingredient entity.
       operationId: deleteIngredient
       parameters:
-      - name: id
-        in: path
-        description: Identifier of the ingredient 
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          description: Identifier of the ingredient
+          required: true
+          schema:
+            type: string
       responses:
         '204':
           description: Deleted
@@ -702,7 +703,355 @@ paths:
             application/json;charset=utf-8:
               schema:
                 $ref: '#/components/schemas/Error'
-    
+
+  /instructions:
+    get:
+      tags:
+        - instruction
+      summary: List or find instructions
+      description: This operation list or find instruction entities
+      operationId: listInstructions
+      parameters:
+        - name: fields
+          in: query
+          description: Comma-separated properties to be provided in response
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: Requested index for start of resources to be provided in response
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Requested number of resources to be provided in response
+          schema:
+            type: integer
+        - name: name
+          in: query
+          description: Name of the instruction to be provided in response
+          schema:
+            type: string
+        - name: recipeId
+          in: query
+          description: Id of the recipe to be provided in response
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-Total-Count:
+              description: Total number of items matching criteria
+              schema:
+                type: integer
+            X-Result-Count:
+              description: Actual number of items returned in the response body
+              schema:
+                type: integer
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/instruction'
+        '400':
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - instruction
+      summary: creates an instruction
+      description: This operation creates an instruction entity.
+      operationId: createInstruction
+      requestBody:
+        description: The instruction
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/instruction'
+        required: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/instruction'
+        '400':
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: Instruction
+  '/instructions/{id}':
+    get:
+      tags:
+        - instruction
+      summary: Retrieves an instruction by ID
+      description: This operation retrieves a instruction entity.
+      operationId: retrieveInstruction
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the instruction
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/instruction'
+        '400':
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - instruction
+      summary: Updates partially a instruction
+      description: This operation updates partially a instruction entity.
+      operationId: updateInstruction
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the instruction
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The instruction to be updated
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/instruction'
+        required: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/instruction'
+        '400':
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: Instruction
+    delete:
+      tags:
+        - instruction
+      summary: Delete a instruction
+      description: This operation deletes a instruction entity.
+      operationId: deleteInstruction
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the instruction
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+          content: { }
+        '400':
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     recipe:
@@ -714,43 +1063,70 @@ components:
         name:
           type: string
           description: name of the recipe
-        description:
+        category:
           type: string
-          description: description of the recipe
+          description: category of the recipe
           format: string
         image/png:
-              type: string
-              format: binary
-              description: image of the ingredient
+          type: string
+          format: binary
+          description: image of the ingredient
+        url:
+          type: string
+          description: url of the recipe
         ingredients:
-              type: array
-              items: 
-                $ref: '#/components/schemas/ingredient'
+          type: array
+          items:
+            $ref: '#/components/schemas/ingredient'
     ingredient:
       allOf:
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: id of the ingredient
-          name:
-            type: string
-            description: name of the ingredient
-          description:
-            type: string
-            description: description of the ingredient
-          image/png:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: id of the ingredient
+            name:
+              type: string
+              description: name of the ingredient
+            measure:
+              type: string
+              description: measure of the ingredient
+            image/png:
               type: string
               format: binary
               description: image of the ingredient
-          recipes:
+            subtitle:
+              type: string
+              description: subtitles, if present of the ingredient
+            recipes:
               type: array
-              items: 
+              items:
+                $ref: '#/components/schemas/recipe'
+    instruction:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: id of the instruction
+            description:
+              type: string
+              description: name of the instruction
+            image/png:
+              type: string
+              format: binary
+              description: image of the instruction
+            position:
+              type: string
+              description: subtitles, if present of the instruction
+            recipes:
+              type: array
+              items:
                 $ref: '#/components/schemas/recipe'
     Error:
       required:
-      - code
-      - reason
+        - code
+        - reason
       type: object
       properties:
         code:

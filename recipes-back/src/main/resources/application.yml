@@ -4,15 +4,15 @@ server:
     context-path: /
 spring:
   datasource:
-    name: recipesdb
-    url: jdbc:postgresql://localhost:5432/recipesdb
-    username: postgres
-    password: postgres
+    name: what_to_eat
+    url: jdbc:mysql://localhost:3306/what_to_eat
+    username: root
+    password: OUOJeSxs7m1C0OgKGp2Q*
   jpa:
     properties:
         hibernate:
-            dialect: org.hibernate.dialect.PostgreSQLDialect
+            dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
         ddl-auto: update
     show-sql: false
-debug: true 
+debug: true

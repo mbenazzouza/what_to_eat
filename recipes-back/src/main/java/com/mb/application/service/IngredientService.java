@@ -1,23 +1,21 @@
 package com.mb.application.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.mb.application.entity.IngredientEntity;
 import com.mb.application.entity.RecipeEntity;
 import com.mb.application.repository.IngredientDao;
 import com.mb.application.repository.RecipeDao;
 import com.mb.server.model.Ingredient;
 import com.mb.server.model.Recipe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IngredientService {
@@ -32,7 +30,7 @@ public class IngredientService {
 
 	public List<Ingredient> listIngredients() {
 
-		return ingredientDao.findAll().stream().map(r -> this.buildIngredientModel(r))
+		return ingredientDao.findAll().stream().map(this::buildIngredientModel)
 				.collect(Collectors.toList());
 	}
 
@@ -47,19 +45,9 @@ public class IngredientService {
 	public Ingredient createIngredient(Ingredient ingredient) {
 		IngredientEntity ingredientEntity = new IngredientEntity();
 		ingredientEntity.setName(ingredient.getName());
-		if (ingredient.getImagePng() != null) {
-			try {
-				ingredientEntity.setImage(ingredient.getImagePng().getInputStream().readAllBytes());
-			} catch (IOException e) {
-				LOG.error("The ingredient image couldn't be retrieved \n" + e.getMessage());
-			}
-		}
-		if (!ingredient.getRecipes().isEmpty() || ingredient.getRecipes().get(0).getId() != null) {
-			Optional<RecipeEntity> recipe = recipeDao.findById(ingredient.getRecipes().get(0).getId());
-			if (recipe.isPresent()) {
-				ingredientEntity.setRecipe(recipe.get());
-			}
-		}
+		ingredientEntity.setMeasure(ingredient.getMeasure());
+		ingredientEntity.setSubtitle(ingredient.getSubtitle());
+
 		IngredientEntity created = ingredientDao.save(ingredientEntity);
 		return buildIngredientModel(created);
 	}
@@ -67,17 +55,11 @@ public class IngredientService {
 	public int updateIngredient(String id, Ingredient ingredient) {
 		IngredientEntity ingredientEntity = new IngredientEntity();
 
+		ingredientEntity.setId(Integer.valueOf(id));
 		ingredientEntity.setName(ingredient.getName());
-		if (ingredient.getImagePng() != null) {
-			try {
-				InputStream io = ingredient.getImagePng().getInputStream();
-				byte[] targetArray = new byte[io.available()];
-				io.read(targetArray);
-				ingredientEntity.setImage(targetArray);
-			} catch (IOException e) {
-				LOG.error("The image was not retrieved: \n" + e.getMessage());
-			}
-		}
+		ingredientEntity.setSubtitle(ingredient.getSubtitle());
+		ingredientEntity.setMeasure(ingredient.getMeasure());
+
 		int updatedId = ingredientDao.save(ingredientEntity).getId();
 		return updatedId;
 
@@ -91,11 +73,13 @@ public class IngredientService {
 		ingredientDao.deleteById(Integer.valueOf(id));
 	}
 
-	private Ingredient buildIngredientModel(IngredientEntity ingredientEntity) {
+	public Ingredient buildIngredientModel(IngredientEntity ingredientEntity) {
 		Ingredient ingredient = new Ingredient();
 
 		ingredient.setId(ingredientEntity.getId());
 		ingredient.setName(ingredientEntity.getName());
+		ingredient.setMeasure(ingredientEntity.getMeasure());
+		ingredient.setSubtitle(ingredientEntity.getSubtitle());
 		Recipe recipe = new Recipe();
 		recipe.setId(ingredientEntity.getRecipe().getId());
 		recipe.setName(ingredientEntity.getRecipe().getName());

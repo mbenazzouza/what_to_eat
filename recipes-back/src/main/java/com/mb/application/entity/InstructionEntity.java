@@ -14,6 +14,10 @@ public class InstructionEntity {
     @Column(name = "instruction_description")
     private String instructionDescription;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipeid")
+    private RecipeEntity recipe;
+
     @Column(name = "pos", length = 200)
     private String pos;
 
@@ -31,6 +35,14 @@ public class InstructionEntity {
 
     public void setInstructionDescription(String instructionDescription) {
         this.instructionDescription = instructionDescription;
+    }
+
+    public RecipeEntity getRecipeid() {
+        return recipe;
+    }
+
+    public void setRecipe(RecipeEntity recipe) {
+        this.recipe = recipe;
     }
 
     public String getPos() {
