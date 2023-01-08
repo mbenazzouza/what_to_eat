@@ -3,30 +3,26 @@ import json
 from bs4 import BeautifulSoup
 import requests
 
-from database import Database
+import database
 
 
 def get_instruction(i, instruction_name, url):
-    database = Database('localhost', '', '', 'what_to_eat')
-
     instruction = instruction_name.text
 
     save_instructions(database, instruction, url, i)
 
 
-def save_instructions(database, instruction_name, url, i):
+def save_instructions( database, instruction_name, url, i):
     # To reference the recipe id, we need to find the recipe using its url
-    select_recipe_query = "SELECT * FROM recipe WHERE url = %s;"
+    select_recipe_query = "SELECT * FROM recipe WHERE url = ?;"
     select_values = [url]
     recipe_id = database.select(select_recipe_query, select_values)[0][0] \
         if database.select(select_recipe_query, select_values) else None
     # Check the instruction has not been inserted before
     # we then save data if not
     if recipe_id:
-        insert_recipe = """INSERT into instruction  (instruction_description, recipeid, pos) 
-                            VALUES (%s, %s, %s)
-                            ON DUPLICATE KEY UPDATE instruction_description = %s, recipeid = %s, pos = %s;"""
-        insert_values = (instruction_name, recipe_id, i, instruction_name, recipe_id, i)
+        insert_recipe = "INSERT OR IGNORE INTO instruction (instruction_description, recipeid, pos) VALUES (?, ?, ?)"
+        insert_values = (instruction_name, recipe_id, i)
         database.insert(insert_recipe, insert_values)
 
 
@@ -65,5 +61,5 @@ class Instruction:
         return dico, subsection_instructions
 
 # To test
-instruction = Instruction('https://www.forksoverknives.com/recipes/vegan-desserts/no-bake-cranberry-pear-tart')
-instruction.get_recipe_instructions()
+# instruction = Instruction('https://www.forksoverknives.com/recipes/vegan-desserts/no-bake-cranberry-pear-tart')
+# instruction.get_recipe_instructions()

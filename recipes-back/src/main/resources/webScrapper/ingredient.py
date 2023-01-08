@@ -3,11 +3,10 @@ import json
 from bs4 import BeautifulSoup
 import requests
 
-from database import Database
+import database
 
 
 def get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name, url):
-    database = Database('localhost', '', '', 'what_to_eat')
     measure = ''
     if ingredient_name.text and not ingredient_name.text[0].isalpha():
         chars = ingredient_name.text.split(' ')
@@ -21,20 +20,18 @@ def get_ingredient_name_and_measure(dico, i, ingredient_dico, ingredient_name, u
         ingredient_dico['name'] = ingredient_name_without_measure
         dico[i] = ingredient_dico
 
-    # save_ingredients(database, ingredient_name_without_measure, measure, url)
+    save_ingredients(database, ingredient_name_without_measure, measure, url)
 
 
 def save_ingredients(database, ingredient_name_without_measure, measure, url):
     # To reference the recipe id, we need to find the recipe using its url
-    select_recipe_query = "SELECT * FROM recipe WHERE url = %s;"
+    select_recipe_query = "SELECT * FROM recipe WHERE url = ?;"
     select_values = [url]
     recipe_id = database.select(select_recipe_query, select_values)[0][0]
     # we then save data if not
-    insert_recipe = """INSERT into ingredient  (name, measure, recipeid, subtitle) 
-                        VALUES (%s, %s, %s, %s)
-                        ON DUPLICATE KEY UPDATE name = %s, measure= %s, recipeid = %s, subtitle = %s;"""
+    insert_ingredient = "INSERT OR IGNORE INTO ingredient (name, measure, recipeid) VALUES (?, ?, ?);"
     insert_values = (ingredient_name_without_measure, measure, recipe_id)
-    database.insert(insert_recipe, insert_values)
+    database.insert(insert_ingredient, insert_values)
 
 
 def get_subtitles(dico, ingredients, subsection_ingredients, subtitles):
