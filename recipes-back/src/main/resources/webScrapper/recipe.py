@@ -4,7 +4,7 @@ import os
 from bs4 import BeautifulSoup
 import requests
 
-from database import Database
+from database import select, insert
 
 
 class Recipe:
@@ -30,14 +30,13 @@ class Recipe:
             # converting urls to bitly in order to avoid too long urls for column limit
             # url = BitlyAPI.convert_long_url_to_bitly(recipe_url[:-1])
             # setting-up database for insert
-            database = Database('localhost', '', '', 'whSat_to_eat')
-            select_recipe = "SELECT * FROM recipe WHERE name = %s OR url = %s;"
+            select_recipe = "SELECT * FROM recipe WHERE name = ? OR url = ?;"
             select_values = (recipe_name, recipe_url[:-1])
-            recipes = database.select(select_recipe, select_values)
+            recipes = select(select_recipe, select_values)
             if not recipes:
-                insert_recipe = "INSERT INTO recipe (name, url, category) VALUES (%s, %s, %s);"
+                insert_recipe = "INSERT INTO recipe (name, url, category) VALUES (?, ?, ?);"
                 insert_values = (recipe_name, recipe_url[:-1], recipe_category)
-                database.insert(insert_recipe, insert_values)
+                insert(insert_recipe, insert_values)
 
             self.recipes_dico[str(i)] = dico
 
@@ -80,7 +79,6 @@ class Recipe:
 
     @staticmethod
     def get_all_recipes():
-        database = Database('localhost', '', '', 'what_to_eat')
         select_recipe = "SELECT * FROM recipe;"
-        recipes = database.select(select_recipe, [])
+        recipes = select(select_recipe, [])
         return recipes
