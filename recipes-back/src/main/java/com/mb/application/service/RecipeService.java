@@ -18,6 +18,7 @@ import com.mb.application.repository.IngredientDao;
 import com.mb.application.repository.RecipeDao;
 import com.mb.server.model.Ingredient;
 import com.mb.server.model.Recipe;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RecipeService {
@@ -31,8 +32,8 @@ public class RecipeService {
 	IngredientDao ingredientDao;
 
 	public List<Recipe> listRecipes() {
-
-		return recipeDao.findAll(Sort.by("id")).stream().map(r -> this.buildRecipeModel(r))
+		List<RecipeEntity> recipes = recipeDao.findAll();
+		return recipes.stream().map(this::buildRecipeModel)
 				.collect(Collectors.toList());
 	}
 
@@ -69,6 +70,7 @@ public class RecipeService {
 
 	}
 
+	@Transactional
 	public void deleteRecipe(String id) {
 		Recipe recipe = getRecipe(id);
 		if (recipe == null) {

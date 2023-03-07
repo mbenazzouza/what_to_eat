@@ -1,13 +1,15 @@
 package com.mb.application.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "recipe")
 public class RecipeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+	@Id
+	@Column(name = "ID")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "ID_SEQ")
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 100)
@@ -19,47 +21,21 @@ public class RecipeEntity {
     @Column(name = "category", nullable = false, length = 100)
     private String category;
 
-    public Integer getId() {
-        return id;
-    }
-
 	// bi-directional many-to-one association to Ingredient
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "recipeid")
 	public List<IngredientEntity> ingredients;
 
-	@Column
-	private String category;
-
-	@Column
-	private String url;
-
-    public String getName() {
-        return name;
-    }
+	public Integer getId() {
+		return id;
+	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	public void setName(String name) {
@@ -67,7 +43,7 @@ public class RecipeEntity {
 	}
 
 	public String getUrl() {
-		return this.url;
+		return url;
 	}
 
 	public void setUrl(String url) {
@@ -75,7 +51,7 @@ public class RecipeEntity {
 	}
 
 	public String getCategory() {
-		return this.category;
+		return category;
 	}
 
 	public void setCategory(String category) {
@@ -83,7 +59,7 @@ public class RecipeEntity {
 	}
 
 	public List<IngredientEntity> getIngredients() {
-		return this.ingredients;
+		return ingredients;
 	}
 
 	public void setIngredients(List<IngredientEntity> ingredients) {

@@ -4,15 +4,13 @@ server:
     context-path: /
 spring:
   datasource:
-    name: what_to_eat
-    url: jdbc:mysql://localhost:3306/what_to_eat
-    username: root
-    password: OUOJeSxs7m1C0OgKGp2Q*
+    url: jdbc:sqlite:src/main/resources/webScrapper/resources/what_to_eat.db
+    driver-class-name: org.sqlite.JDBC
+    username: sa
+    password: sa
   jpa:
-    properties:
-        hibernate:
-            dialect: org.hibernate.dialect.MySQL8Dialect
+    database-platform: com.mb.application.dialect.SQLDialect
+    show-sql: true
     hibernate:
-        ddl-auto: update
-    show-sql: false
+      ddl-auto: update
 debug: true

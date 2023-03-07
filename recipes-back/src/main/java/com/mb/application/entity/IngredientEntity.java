@@ -9,8 +9,9 @@ import javax.persistence.*;
 @Table(name = "ingredient")
 public class IngredientEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
+    @SequenceGenerator(name = "id_Sequence", sequenceName = "ID_SEQ")
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 200)

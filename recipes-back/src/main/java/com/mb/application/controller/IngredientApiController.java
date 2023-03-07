@@ -1,7 +1,8 @@
 package com.mb.application.controller;
 
-import java.util.List;
-
+import com.mb.application.service.IngredientService;
+import com.mb.server.api.IngredientsApi;
+import com.mb.server.model.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mb.application.service.IngredientService;
-import com.mb.server.api.IngredientsApi;
-import com.mb.server.model.Ingredient;
+import java.util.List;
 
 @Controller
 @RequestMapping("${openapi.recipeManagement.base-path:/mb/v1}")
