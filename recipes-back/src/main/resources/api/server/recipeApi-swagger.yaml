@@ -19,26 +19,24 @@ paths:
       description: This operation list or find recipe entities
       operationId: listRecipes
       parameters:
-        - name: fields
+        - name: page
           in: query
-          description: Comma-separated properties to be provided in response
+          description: Requested page number
           schema:
-            type: string
-        - name: offset
+            type: int
+          required: false
+        - name: size
           in: query
-          description: Requested index for start of resources to be provided in response
+          description: Requested size of a page
           schema:
-            type: integer
-        - name: limit
-          in: query
-          description: Requested number of resources to be provided in response
-          schema:
-            type: integer
+            type: int
+          required: false
         - name: name
           in: query
           description: Name of the recipe
           schema:
             type: string
+          required: false
       responses:
         '200':
           description: Success

@@ -1,7 +1,6 @@
 package com.mb.application.service;
 
 import com.mb.application.entity.IngredientEntity;
-import com.mb.application.entity.RecipeEntity;
 import com.mb.application.repository.IngredientDao;
 import com.mb.application.repository.RecipeDao;
 import com.mb.server.model.Ingredient;
@@ -11,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
