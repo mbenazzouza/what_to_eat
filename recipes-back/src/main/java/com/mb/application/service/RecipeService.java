@@ -1,7 +1,5 @@
 package com.mb.application.service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +9,9 @@ import com.mb.application.entity.RecipeEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ import com.mb.server.model.Recipe;
 public class RecipeService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RecipeService.class);
+	private final static String ID = "id";
+	private final static String ASC = "ASC";
 
 	@Autowired
 	RecipeDao recipeDao;
@@ -30,18 +33,23 @@ public class RecipeService {
 	@Autowired
 	IngredientDao ingredientDao;
 
-	public List<Recipe> listRecipes() {
+	public long getRecipesCount() {
+		return recipeDao.count();
+	}
 
-		return recipeDao.findAll(Sort.by("id")).stream().map(r -> this.buildRecipeModel(r))
+	public List<Recipe> listRecipes(int pageNo, int pageSize) {
+		Sort sort = Sort.by(ID).ascending();
+
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+		Page<RecipeEntity> recipes = recipeDao.findAll(pageable);
+		return recipes.stream().map(this::buildRecipeModel)
 				.collect(Collectors.toList());
 	}
 
 	public Recipe getRecipe(String id) {
 		Optional<RecipeEntity> recipeEntity = recipeDao.findById(Integer.valueOf(id));
-		if (recipeEntity.isEmpty()) {
-			return null;
-		}
-		return this.buildRecipeModel(recipeEntity.get());
+		return recipeEntity.map(this::buildRecipeModel).orElse(null);
 	}
 
 	public Recipe createRecipe(Recipe recipe) {

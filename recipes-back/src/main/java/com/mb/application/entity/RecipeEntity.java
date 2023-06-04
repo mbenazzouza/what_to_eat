@@ -1,46 +1,49 @@
 package com.mb.application.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "recipe")
+@Table(name = "recipe", schema = "main", catalog = "")
 public class RecipeEntity {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Id
+    @Column(name = "id", nullable = true)
     private Integer id;
-
-    @Column(name = "name", nullable = false, length = 100)
+    @Basic
+    @Column(name = "name", nullable = true, length = 200)
     private String name;
-
-    @Column(name = "url", length = 500)
+    @Basic
+    @Column(name = "url", nullable = true, length = 200)
     private String url;
-
-    @Column(name = "category", nullable = false, length = 100)
+    @Basic
+    @Column(name = "category", nullable = true, length = 200)
     private String category;
 
     public Integer getId() {
         return id;
     }
 
-	// bi-directional many-to-one association to Ingredient
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "recipeid")
-	public List<IngredientEntity> ingredients;
-
-	@Column
-	private String category;
-
-	@Column
-	private String url;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 
     public void setUrl(String url) {
         this.url = url;
@@ -54,39 +57,27 @@ public class RecipeEntity {
         this.category = category;
     }
 
-    public Integer getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RecipeEntity that = (RecipeEntity) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (url != null ? !url.equals(that.url) : that.url != null) return false;
+        if (category != null ? !category.equals(that.category) : that.category != null) return false;
+
+        return true;
     }
 
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getUrl() {
-		return this.url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public List<IngredientEntity> getIngredients() {
-		return this.ingredients;
-	}
-
-	public void setIngredients(List<IngredientEntity> ingredients) {
-		this.ingredients = ingredients;
-	}
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        return result;
+    }
 }
