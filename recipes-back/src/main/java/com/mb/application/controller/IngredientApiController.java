@@ -2,10 +2,12 @@ package com.mb.application.controller;
 
 import java.util.List;
 
+import com.mb.application.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -37,10 +39,10 @@ public class IngredientApiController implements IngredientsApi {
 		return new ResponseEntity<List<Ingredient>>(ingredients, HttpStatus.OK);
 	}
 	
-	public ResponseEntity<Ingredient> retrieveIngredient(String id) {
+	public ResponseEntity<Ingredient> retrieveIngredient(@PathVariable("id") String id) {
 		Ingredient ingredient = is.getIngredient(id);
 		if (ingredient == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			throw new ResourceNotFoundException("Recipe not found for recipe id: " + id);
 		}
 		return new ResponseEntity<>(ingredient, HttpStatus.OK);
 		
