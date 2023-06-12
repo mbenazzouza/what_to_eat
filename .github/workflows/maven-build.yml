@@ -4,12 +4,15 @@
 name: Maven Package
 
 on:
-  release:
-    types: [created]
+  pull_request:
+    types: 
+      - opened
+    branches:
+      - 'release/**'
 
 jobs:
   build:
-
+    if:  startsWith(github.head_ref, 'releases/')
     runs-on: ubuntu-latest
     permissions:
       contents: read
