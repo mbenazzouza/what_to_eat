@@ -12,7 +12,6 @@ on:
 
 jobs:
   build:
-    if:  startsWith(github.head_ref, 'releases/')
     runs-on: ubuntu-latest
     permissions:
       contents: read
