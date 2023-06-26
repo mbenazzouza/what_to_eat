@@ -16,7 +16,7 @@ import com.mb.server.api.IngredientsApi;
 import com.mb.server.model.Ingredient;
 
 @Controller
-@RequestMapping("${openapi.recipeManagement.base-path:/mb/v1}")
+@RequestMapping("${openapi.recipeManagement.base-path:/api/v1}")
 public class IngredientApiController implements IngredientsApi {
 
 	@Autowired

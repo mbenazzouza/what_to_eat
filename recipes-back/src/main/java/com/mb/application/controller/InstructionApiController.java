@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-05-13T18:53:22.574116200+02:00[Europe/Prague]")
 @Controller
-@RequestMapping("${openapi.recipeManagement.base-path:/mb/v1}")
+@RequestMapping("${openapi.recipeManagement.base-path:/api/v1}")
 public class InstructionApiController implements InstructionsApi {
 
     @Autowired

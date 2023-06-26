@@ -33,10 +33,7 @@ public class IngredientService {
 
 	public Ingredient getIngredient(String id) {
 		Optional<IngredientEntity> ingredientEntity = ingredientDao.findById(Integer.valueOf(id));
-		if (ingredientEntity.isEmpty()) {
-			return null;
-		}
-		return this.buildIngredientModel(ingredientEntity.get());
+		return ingredientEntity.map(this::buildIngredientModel).orElse(null);
 	}
 
 	public Ingredient createIngredient(Ingredient ingredient) {
@@ -57,8 +54,7 @@ public class IngredientService {
 		ingredientEntity.setSubtitle(ingredient.getSubtitle());
 		ingredientEntity.setMeasure(ingredient.getMeasure());
 
-		int updatedId = ingredientDao.save(ingredientEntity).getId();
-		return updatedId;
+		return ingredientDao.save(ingredientEntity).getId();
 
 	}
 
@@ -77,10 +73,7 @@ public class IngredientService {
 		ingredient.setName(ingredientEntity.getName());
 		ingredient.setMeasure(ingredientEntity.getMeasure());
 		ingredient.setSubtitle(ingredientEntity.getSubtitle());
-		Recipe recipe = new Recipe();
-		recipe.setId(ingredientEntity.getRecipe().getId());
-		recipe.setName(ingredientEntity.getRecipe().getName());
-		ingredient.addRecipesItem(recipe);
+		ingredient.setRecipeId(ingredientEntity.getRecipe().getId());
 
 		return ingredient;
 	}

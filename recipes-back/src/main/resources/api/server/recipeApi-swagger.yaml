@@ -5,7 +5,7 @@ info:
     This is Swagger UI environment generated for the TMF Recipe specification
   version: '4.0'
 servers:
-  - url: 'http://serverRoot/mb/v1'
+  - url: 'http://serverRoot/api/v1'
 tags:
   - name: recipe
   - name: ingredient
@@ -1096,10 +1096,8 @@ components:
             subtitle:
               type: string
               description: subtitles, if present of the ingredient
-            recipes:
-              type: array
-              items:
-                $ref: '#/components/schemas/recipe'
+            recipe_id:
+              type: integer
     instruction:
       allOf:
         - type: object
