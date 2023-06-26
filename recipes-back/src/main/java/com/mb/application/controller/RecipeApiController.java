@@ -17,7 +17,7 @@ import com.mb.server.model.Recipe;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("${openapi.recipeManagement.base-path:/mb/v1}")
+@RequestMapping("${openapi.recipeManagement.base-path:/api/v1}")
 public class RecipeApiController implements RecipesApi {
 
 	@Autowired
