@@ -16,9 +16,11 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     <ng-template pTemplate="body" let-recipe>
         <tr>
             <td>{{recipe.id}}</td>
-            <td>{{recipe.name}}</td>
             <td>
-               router
+                <a [routerLink]="['detail', recipe.id]" routerLinkActive="active">{{recipe.name}}</a>
+            </td>
+            <td>
+               <a href="{{recipe.url}}">{{recipe.name}}</a>
             </td>
             <td>{{recipe.category}}</td>
         </tr>

@@ -12,13 +12,16 @@ import { ButtonModule } from 'primeng/button';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
+import { HomeComponent } from './home/home.component';
+import { PanelModule } from 'primeng/panel';
 
 @NgModule({
   declarations: [
     AppComponent,
     RecipesComponent,
     IngredientsComponent,
-    RecipeDetailComponent
+    RecipeDetailComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,7 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
     TableModule,
     ButtonModule,
     BrowserAnimationsModule,
+    PanelModule
   ],
   providers: [],
   bootstrap: [AppComponent]

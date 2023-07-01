@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from './recipe';
 import { RecipeService } from '../_services/recipe.service';
 import { Column } from './column';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes',
@@ -24,7 +25,9 @@ export class RecipesComponent implements OnInit {
   cols!: Column[];
   
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(private recipeService: RecipeService, 
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
     this.recipeService.getRecipes().subscribe((data) => {
@@ -40,7 +43,6 @@ export class RecipesComponent implements OnInit {
   ];
     
   }
-
   
 
 }
