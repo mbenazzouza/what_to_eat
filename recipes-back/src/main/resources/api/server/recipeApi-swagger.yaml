@@ -54,7 +54,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/recipe'
+                  $ref: '#/components/schemas/Recipe'
         '400':
           description: Bad Request
           content:
@@ -108,7 +108,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              $ref: '#/components/schemas/recipe'
+              $ref: '#/components/schemas/Recipe'
         required: true
       responses:
         '200':
@@ -116,7 +116,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/recipe'
+                $ref: '#/components/schemas/Recipe'
         '400':
           description: Bad Request
           content:
@@ -180,7 +180,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/recipe'
+                $ref: '#/components/schemas/Recipe'
         '400':
           description: Bad Request
           content:
@@ -241,7 +241,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              $ref: '#/components/schemas/recipe'
+              $ref: '#/components/schemas/Recipe'
         required: true
       responses:
         '200':
@@ -249,7 +249,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/recipe'
+                $ref: '#/components/schemas/Recipe'
         '400':
           description: Bad Request
           content:
@@ -403,7 +403,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ingredient'
+                  $ref: '#/components/schemas/Ingredient'
         '400':
           description: Bad Request
           content:
@@ -457,7 +457,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              $ref: '#/components/schemas/ingredient'
+              $ref: '#/components/schemas/Ingredient'
         required: true
       responses:
         '200':
@@ -465,7 +465,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/ingredient'
+                $ref: '#/components/schemas/Ingredient'
         '400':
           description: Bad Request
           content:
@@ -529,7 +529,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/ingredient'
+                $ref: '#/components/schemas/Ingredient'
         '400':
           description: Bad Request
           content:
@@ -590,7 +590,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              $ref: '#/components/schemas/ingredient'
+              $ref: '#/components/schemas/Ingredient'
         required: true
       responses:
         '200':
@@ -598,7 +598,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/ingredient'
+                $ref: '#/components/schemas/Ingredient'
         '400':
           description: Bad Request
           content:
@@ -752,7 +752,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/instruction'
+                  $ref: '#/components/schemas/Instruction'
         '400':
           description: Bad Request
           content:
@@ -806,7 +806,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              $ref: '#/components/schemas/instruction'
+              $ref: '#/components/schemas/Instruction'
         required: true
       responses:
         '200':
@@ -814,7 +814,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/instruction'
+                $ref: '#/components/schemas/Instruction'
         '400':
           description: Bad Request
           content:
@@ -878,7 +878,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/instruction'
+                $ref: '#/components/schemas/Instruction'
         '400':
           description: Bad Request
           content:
@@ -939,7 +939,7 @@ paths:
         content:
           application/json;charset=utf-8:
             schema:
-              $ref: '#/components/schemas/instruction'
+              $ref: '#/components/schemas/Instruction'
         required: true
       responses:
         '200':
@@ -947,7 +947,7 @@ paths:
           content:
             application/json;charset=utf-8:
               schema:
-                $ref: '#/components/schemas/instruction'
+                $ref: '#/components/schemas/Instruction'
         '400':
           description: Bad Request
           content:
@@ -1052,7 +1052,7 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    recipe:
+    Recipe:
       type: object
       properties:
         id:
@@ -1075,8 +1075,12 @@ components:
         ingredients:
           type: array
           items:
-            $ref: '#/components/schemas/ingredient'
-    ingredient:
+            $ref: '#/components/schemas/Ingredient'
+        instructions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instruction'
+    Ingredient:
       allOf:
         - type: object
           properties:
@@ -1098,7 +1102,7 @@ components:
               description: subtitles, if present of the ingredient
             recipe_id:
               type: integer
-    instruction:
+    Instruction:
       allOf:
         - type: object
           properties:
@@ -1118,7 +1122,7 @@ components:
             recipes:
               type: array
               items:
-                $ref: '#/components/schemas/recipe'
+                $ref: '#/components/schemas/Recipe'
     Error:
       required:
         - code

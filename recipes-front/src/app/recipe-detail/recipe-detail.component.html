@@ -1,1 +1,19 @@
-<p>recipe-detail works!</p>
+<div *ngIf="!loading" >
+    <p-panel header="Ingredients">
+        <div *ngFor="let ingredient of ingredients">
+            <li>
+                <span>{{ingredient.measure}}</span>&nbsp;
+                <span>{{ingredient.name}}</span>
+            </li>
+        </div>
+    </p-panel>
+    
+    <p-panel header="Instuctions">
+        <div *ngFor="let instruction of instructions">
+            <li>
+                <span>{{instruction.pos}}</span>&nbsp;
+                <span>{{instruction.description}}</span>
+            </li>
+        </div>
+    </p-panel>
+</div>

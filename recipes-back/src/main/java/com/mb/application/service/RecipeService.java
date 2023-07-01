@@ -5,7 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.mb.application.entity.IngredientEntity;
+import com.mb.application.entity.InstructionEntity;
 import com.mb.application.entity.RecipeEntity;
+import com.mb.application.repository.InstructionDao;
+import com.mb.server.model.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,9 @@ public class RecipeService {
 
 	@Autowired
 	IngredientDao ingredientDao;
+
+	@Autowired
+	InstructionDao instructionDao;
 
 	public long getRecipesCount() {
 		return recipeDao.count();
@@ -95,7 +101,9 @@ public class RecipeService {
 		List<Ingredient> ingredients = ingredientDao.findByRecipeId(recipe.getId()).stream()
 				.map(this::buildIngredientModel).collect(Collectors.toList());
 		recipe.setIngredients(ingredients);
-
+		List<Instruction> instructions = instructionDao.findByRecipeId(recipe.getId()).stream()
+				.map(this::buildInstructionModel).collect(Collectors.toList());
+		recipe.setInstructions(instructions);
 
 		return recipe;
 	}
@@ -109,6 +117,16 @@ public class RecipeService {
 		ingredient.setMeasure(ingredientEntity.getMeasure());
 
 		return ingredient;
+	}
+
+	private Instruction buildInstructionModel(InstructionEntity instructionEntity) {
+		Instruction instruction = new Instruction();
+
+		instruction.setId(instructionEntity.getId());
+		instruction.setDescription(instructionEntity.getInstructionDescription());
+		instruction.setPosition(instructionEntity.getPos());
+
+		return instruction;
 	}
 
 }
