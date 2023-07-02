@@ -3,6 +3,7 @@ package com.mb.application.service;
 import com.mb.application.entity.IngredientEntity;
 import com.mb.application.repository.IngredientDao;
 import com.mb.application.repository.RecipeDao;
+import com.mb.application.util.Util;
 import com.mb.server.model.Ingredient;
 import com.mb.server.model.Recipe;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class IngredientService {
 
 	public List<Ingredient> listIngredients() {
 
-		return ingredientDao.findAll().stream().map(this::buildIngredientModel)
+		return ingredientDao.findAll().stream().map(this::buildIngredientModel).filter(Util.distinctByKey(Ingredient::getName))
 				.collect(Collectors.toList());
 	}
 
