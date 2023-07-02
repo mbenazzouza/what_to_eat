@@ -1,4 +1,4 @@
-<div *ngIf="!loading" >
+<div *ngIf="!loading" class="card flex justify-content-center">
     <p-panel header="Ingredients">
         <div *ngFor="let ingredient of ingredients">
             <li>
@@ -7,7 +7,7 @@
             </li>
         </div>
     </p-panel>
-    
+    <br>
     <p-panel header="Instuctions">
         <div *ngFor="let instruction of instructions">
             <li>

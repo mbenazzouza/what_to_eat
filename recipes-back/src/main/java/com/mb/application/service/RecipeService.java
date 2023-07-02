@@ -2,12 +2,17 @@ package com.mb.application.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.mb.application.entity.IngredientEntity;
 import com.mb.application.entity.InstructionEntity;
 import com.mb.application.entity.RecipeEntity;
 import com.mb.application.repository.InstructionDao;
+import com.mb.application.util.Util;
 import com.mb.server.model.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,10 +104,11 @@ public class RecipeService {
 		recipe.setCategory(recipeEntity.getCategory());
 		recipe.setUrl(recipeEntity.getUrl());
 		List<Ingredient> ingredients = ingredientDao.findByRecipeId(recipe.getId()).stream()
-				.map(this::buildIngredientModel).collect(Collectors.toList());
+				.map(this::buildIngredientModel).filter(Util.distinctByKey(Ingredient::getName)).collect(Collectors.toList());
 		recipe.setIngredients(ingredients);
 		List<Instruction> instructions = instructionDao.findByRecipeId(recipe.getId()).stream()
-				.map(this::buildInstructionModel).collect(Collectors.toList());
+				.map(this::buildInstructionModel).filter(Util.distinctByKey(Instruction::getDescription)
+                        .and(Util.distinctByKey(Instruction::getPosition))).collect(Collectors.toList());
 		recipe.setInstructions(instructions);
 
 		return recipe;
