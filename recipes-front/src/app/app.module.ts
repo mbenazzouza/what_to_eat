@@ -14,6 +14,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { HomeComponent } from './home/home.component';
 import { PanelModule } from 'primeng/panel';
+import { RelatedRecipesComponent } from './ingredients/related-recipes/related-recipes.component';
+import {MatCardModule} from '@angular/material/card';
+
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import { PanelModule } from 'primeng/panel';
     RecipesComponent,
     IngredientsComponent,
     RecipeDetailComponent,
-    HomeComponent
+    HomeComponent,
+    RelatedRecipesComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,9 @@ import { PanelModule } from 'primeng/panel';
     TableModule,
     ButtonModule,
     BrowserAnimationsModule,
-    PanelModule
+    PanelModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

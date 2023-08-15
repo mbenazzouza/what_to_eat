@@ -1,6 +1,5 @@
 package com.mb.application.entity;
 
-
 import com.mb.server.model.Recipe;
 
 import javax.persistence.*;

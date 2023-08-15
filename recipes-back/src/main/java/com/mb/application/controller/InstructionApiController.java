@@ -36,7 +36,8 @@ public class InstructionApiController implements InstructionsApi {
 
     }
 
-    public ResponseEntity<List<Instruction>> listInstructions(String fields, Integer offset, Integer limit, String name, Integer recipeId) {
+    public ResponseEntity<List<Instruction>> listInstructions(String fields, Integer offset, Integer limit, String name,
+            Integer recipeId) {
         List<Instruction> instructions = is.listInstructions();
         return new ResponseEntity<List<Instruction>>(instructions, HttpStatus.OK);
     }

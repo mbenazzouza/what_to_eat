@@ -1,3 +1,4 @@
 package javax.annotation;
 
-public @interface Nullable {}
+public @interface Nullable {
+}
