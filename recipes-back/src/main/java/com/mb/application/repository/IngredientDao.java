@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IngredientDao extends JpaRepository<IngredientEntity, Integer>  {
+public interface IngredientDao extends JpaRepository<IngredientEntity, Integer> {
 
-	List<IngredientEntity> findByRecipeId(Integer id);
-	
+    List<IngredientEntity> findByRecipeId(Integer id);
+
+    List<IngredientEntity> findByNameIgnoreCase(String name);
+
 }
