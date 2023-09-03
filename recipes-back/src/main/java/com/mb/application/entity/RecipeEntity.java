@@ -25,14 +25,6 @@ public class RecipeEntity {
     @Column(name = "category", nullable = true, length = 200)
     private String category;
 
-    @Basic
-    @Column(name = "image", nullable = true)
-    private String image;
-
-    @Basic
-    @Column(name = "description", nullable = true)
-    private String description;
-
     public Integer getId() {
         return id;
     }
@@ -63,22 +55,6 @@ public class RecipeEntity {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override

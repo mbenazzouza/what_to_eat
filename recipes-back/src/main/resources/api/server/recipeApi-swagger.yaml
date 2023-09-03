@@ -1065,12 +1065,10 @@ components:
           type: string
           description: category of the recipe
           format: string
-        image:
+        image/png:
           type: string
-          description: image of the recipe
-        description:
-          type: string
-          description: description of the recipe
+          format: binary
+          description: image of the ingredient
         url:
           type: string
           description: url of the recipe

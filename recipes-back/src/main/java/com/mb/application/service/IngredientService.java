@@ -6,14 +6,19 @@ import com.mb.application.repository.IngredientDao;
 import com.mb.application.repository.RecipeDao;
 import com.mb.application.util.Util;
 import com.mb.server.model.Ingredient;
+import com.mb.server.model.Recipe;
+import io.swagger.models.auth.In;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IngredientService {
