@@ -1,9 +1,6 @@
-<div *ngIf="!loading" class="card flex justify-content-center" style="padding: 10px;">
-    <img [src]="imagePath" />
-    <h1>{{recipe.name}}</h1>
-    <p>{{recipe.description}}</p>
-    <p-panel p-6 header="Ingredients">
-        <div *ngFor="let ingredient of recipe.ingredients">
+<div *ngIf="!loading" class="card flex justify-content-center">
+    <p-panel header="Ingredients">
+        <div *ngFor="let ingredient of ingredients">
             <li>
                 <span>{{ingredient.measure}}</span>&nbsp;
                 <span>{{ingredient.name}}</span>
@@ -12,7 +9,7 @@
     </p-panel>
     <br>
     <p-panel header="Instuctions">
-        <div *ngFor="let instruction of recipe.instructions">
+        <div *ngFor="let instruction of instructions">
             <li>
                 <span>{{instruction.pos}}</span>&nbsp;
                 <span>{{instruction.description}}</span>

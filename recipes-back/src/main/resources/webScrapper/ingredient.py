@@ -79,11 +79,6 @@ class Ingredient:
         html_page = requests.get(self.url, headers=headers).text
         soup = BeautifulSoup(html_page, 'lxml')
         recipe_ingredients = soup.find('section', class_='section-ingredients')
-        recipe_description = soup.find('div', class_='post-openclose').p.text \
-            if soup.find('div', class_='post-openclose') else None
-        update_recipe = "UPDATE recipe set description=? where url=?;"
-        insert_values = (recipe_description, self.url)
-        database.insert(update_recipe, insert_values)
         if recipe_ingredients:
             subtitles = recipe_ingredients.find_all('b', class_='subtitle')
             subsection_ingredients = recipe_ingredients.find_all('ul')
