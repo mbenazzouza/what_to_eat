@@ -1,8 +1,13 @@
 package com.mb.application.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -17,6 +22,7 @@ import com.mb.server.model.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -102,6 +108,8 @@ public class RecipeService {
         recipe.setName(recipeEntity.getName());
         recipe.setCategory(recipeEntity.getCategory());
         recipe.setUrl(recipeEntity.getUrl());
+        recipe.setImage(recipeEntity.getImage());
+        recipe.setDescription(recipeEntity.getDescription());
         List<Ingredient> ingredients = ingredientDao.findByRecipeId(recipe.getId()).stream()
                 .map(this::buildIngredientModel).filter(Util.distinctByKey(Ingredient::getName))
                 .collect(Collectors.toList());
