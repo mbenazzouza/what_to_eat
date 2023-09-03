@@ -31,7 +31,6 @@ def insert(query, values):
 def select(query, values):
     mydb = connect(file_name)
     cursor = mydb.cursor()
-
     cursor.execute(query, values)
 
     results = cursor.fetchall()
