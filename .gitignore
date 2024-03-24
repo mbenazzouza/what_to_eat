@@ -43,5 +43,20 @@ out/
 !.vscode/extensions.json
 .history/*
 
-# dependencies
-recipes-front/node_modules
+##############################
+## Miscellaneous
+##############################
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+##############################
+## Node
+##############################
+/node_modules/
+npm-debug.log
+yarn-error.log
