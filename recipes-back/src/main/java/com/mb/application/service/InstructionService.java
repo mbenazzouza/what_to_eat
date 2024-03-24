@@ -16,64 +16,63 @@ import java.util.stream.Collectors;
 @Service
 public class InstructionService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RecipeService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RecipeService.class);
 
-	@Autowired
-	InstructionDao instructionDao;
+    @Autowired
+    InstructionDao instructionDao;
 
-	@Autowired
-	RecipeDao recipeDao;
+    @Autowired
+    RecipeDao recipeDao;
 
-	public List<Instruction> listInstructions() {
+    public List<Instruction> listInstructions() {
 
-		return instructionDao.findAll().stream().map(this::buildInstructionModel)
-				.collect(Collectors.toList());
-	}
+        return instructionDao.findAll().stream().map(this::buildInstructionModel).collect(Collectors.toList());
+    }
 
-	public Instruction getInstruction(String id) {
-		Optional<InstructionEntity> instructionEntity = instructionDao.findById(Integer.valueOf(id));
-		if (instructionEntity.isEmpty()) {
-			return null;
-		}
-		return this.buildInstructionModel(instructionEntity.get());
-	}
+    public Instruction getInstruction(String id) {
+        Optional<InstructionEntity> instructionEntity = instructionDao.findById(Integer.valueOf(id));
+        if (instructionEntity.isEmpty()) {
+            return null;
+        }
+        return this.buildInstructionModel(instructionEntity.get());
+    }
 
-	public Instruction createInstruction(Instruction instruction) {
-		InstructionEntity instructionEntity = new InstructionEntity();
-		instructionEntity.setInstructionDescription(instruction.getDescription());
+    public Instruction createInstruction(Instruction instruction) {
+        InstructionEntity instructionEntity = new InstructionEntity();
+        instructionEntity.setDescription(instruction.getDescription());
 
-		InstructionEntity created = instructionDao.save(instructionEntity);
-		return buildInstructionModel(created);
-	}
+        InstructionEntity created = instructionDao.save(instructionEntity);
+        return buildInstructionModel(created);
+    }
 
-	public int updateInstruction(String id, Instruction instruction) {
-		InstructionEntity instructionEntity = new InstructionEntity();
+    public int updateInstruction(String id, Instruction instruction) {
+        InstructionEntity instructionEntity = new InstructionEntity();
 
-		instructionEntity.setId(instruction.getId());
-		instructionEntity.setInstructionDescription(instruction.getDescription());
-		instructionEntity.setPos(instruction.getPosition());
+        instructionEntity.setId(instruction.getId());
+        instructionEntity.setDescription(instruction.getDescription());
+        instructionEntity.setPos(instruction.getPosition());
 
-		int updatedId = instructionDao.save(instructionEntity).getId();
-		return updatedId;
+        int updatedId = instructionDao.save(instructionEntity).getId();
+        return updatedId;
 
-	}
+    }
 
-	public void deleteRecipe(String id) {
-		Instruction recipe = getInstruction(id);
-		if (recipe == null) {
-			return;
-		}
-		instructionDao.deleteById(Integer.valueOf(id));
-	}
+    public void deleteRecipe(String id) {
+        Instruction recipe = getInstruction(id);
+        if (recipe == null) {
+            return;
+        }
+        instructionDao.deleteById(Integer.valueOf(id));
+    }
 
-	public Instruction buildInstructionModel(InstructionEntity instructionEntity) {
-		Instruction instruction = new Instruction();
+    public Instruction buildInstructionModel(InstructionEntity instructionEntity) {
+        Instruction instruction = new Instruction();
 
-		instruction.setId(instructionEntity.getId());
-		instruction.setDescription(instructionEntity.getInstructionDescription());
-		instruction.setPosition(instructionEntity.getPos());
+        instruction.setId(instructionEntity.getId());
+        instruction.setDescription(instructionEntity.getDescription());
+        instruction.setPosition(instructionEntity.getPos());
 
-		return instruction;
-	}
+        return instruction;
+    }
 
 }

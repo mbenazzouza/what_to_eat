@@ -1,30 +1,60 @@
-import { NgModule } from '@angular/core';
+import { NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RecipesComponent } from './recipes/recipes.component';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'
-import {TableModule} from 'primeng/table';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+import { HttpClientModule } from '@angular/common/http';
+import { IngredientsComponent } from './ingredients/ingredients.component';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
+import { HomeComponent } from './home/home.component';
+import { PanelModule } from 'primeng/panel';
+import { RelatedRecipesComponent } from './ingredients/related-recipes/related-recipes.component';
+import {MatCardModule} from '@angular/material/card';
+
+import {MatButtonModule} from '@angular/material/button';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ImageModule } from 'primeng/image';
+import { NgsContenteditableModule } from '@ng-stack/contenteditable';
 
 @NgModule({
   declarations: [
     AppComponent,
     RecipesComponent,
-    RecipeDetailComponent
+    IngredientsComponent,
+    RecipeDetailComponent,
+    HomeComponent,
+    RelatedRecipesComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    FormsModule,
     AppRoutingModule,
+    HttpClientModule,
+    TableModule,
+    ButtonModule,
     BrowserAnimationsModule,
-    TableModule
+    PanelModule,
+    MatCardModule,
+    MatButtonModule,
+    InputTextareaModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ImageModule,
+    NgsContenteditableModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: RecipeDetailComponent,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

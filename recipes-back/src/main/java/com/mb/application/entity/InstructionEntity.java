@@ -1,7 +1,22 @@
 package com.mb.application.entity;
 
-import javax.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
+@Data
 @Entity
 @Table(name = "instruction")
 public class InstructionEntity {
@@ -12,14 +27,14 @@ public class InstructionEntity {
 
     @Lob
     @Column(name = "instruction_description")
-    private String instructionDescription;
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipeid")
     private RecipeEntity recipe;
 
     @Column(name = "pos", length = 200)
-    private String pos;
+    private String position;
 
     public Integer getId() {
         return id;
@@ -29,15 +44,15 @@ public class InstructionEntity {
         this.id = id;
     }
 
-    public String getInstructionDescription() {
-        return instructionDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setInstructionDescription(String instructionDescription) {
-        this.instructionDescription = instructionDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public RecipeEntity getRecipeid() {
+    public RecipeEntity getRecipe() {
         return recipe;
     }
 
@@ -46,11 +61,10 @@ public class InstructionEntity {
     }
 
     public String getPos() {
-        return pos;
+        return position;
     }
 
     public void setPos(String pos) {
-        this.pos = pos;
+        this.position = position;
     }
-
 }

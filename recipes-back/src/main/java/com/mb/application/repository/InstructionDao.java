@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface InstructionDao extends JpaRepository<InstructionEntity, Integer>  {
+public interface InstructionDao extends JpaRepository<InstructionEntity, Integer> {
 
-	List<IngredientEntity> findByRecipeId(Integer id);
-	
+    List<InstructionEntity> findByRecipeId(Integer id);
+
 }

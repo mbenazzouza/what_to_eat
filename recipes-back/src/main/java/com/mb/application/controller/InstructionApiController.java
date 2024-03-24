@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-05-13T18:53:22.574116200+02:00[Europe/Prague]")
 @Controller
-@RequestMapping("${openapi.recipeManagement.base-path:/mb/v1}")
+@RequestMapping("${openapi.recipeManagement.base-path:/api/v1}")
 public class InstructionApiController implements InstructionsApi {
 
     @Autowired
@@ -36,7 +36,8 @@ public class InstructionApiController implements InstructionsApi {
 
     }
 
-    public ResponseEntity<List<Instruction>> listInstructions(String fields, Integer offset, Integer limit, String name, Integer recipeId) {
+    public ResponseEntity<List<Instruction>> listInstructions(String fields, Integer offset, Integer limit, String name,
+            Integer recipeId) {
         List<Instruction> instructions = is.listInstructions();
         return new ResponseEntity<List<Instruction>>(instructions, HttpStatus.OK);
     }

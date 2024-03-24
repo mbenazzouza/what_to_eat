@@ -1,13 +1,20 @@
 package com.mb.application.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "recipe", schema = "main", catalog = "")
 public class RecipeEntity {
@@ -25,49 +32,39 @@ public class RecipeEntity {
     @Column(name = "category", nullable = true, length = 200)
     private String category;
 
-    public Integer getId() {
-        return id;
-    }
+    @Basic
+    @Column(name = "image", nullable = true)
+    private String image;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @Basic
+    @Column(name = "description", nullable = true)
+    private String description;
 
-    public String getName() {
-        return name;
-    }
+    @OneToMany(mappedBy="recipe")
+    private List<IngredientEntity> ingredients;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @OneToMany(mappedBy="recipe")
+    private List<InstructionEntity> instructions;
 
-    public String getUrl() {
-        return url;
-    }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         RecipeEntity that = (RecipeEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (url != null ? !url.equals(that.url) : that.url != null) return false;
-        if (category != null ? !category.equals(that.category) : that.category != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null)
+            return false;
+        if (name != null ? !name.equals(that.name) : that.name != null)
+            return false;
+        if (url != null ? !url.equals(that.url) : that.url != null)
+            return false;
+        if (category != null ? !category.equals(that.category) : that.category != null)
+            return false;
 
         return true;
     }

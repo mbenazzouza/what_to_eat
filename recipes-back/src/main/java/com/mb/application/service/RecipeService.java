@@ -1,14 +1,30 @@
 package com.mb.application.service;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mb.application.entity.IngredientEntity;
+import com.mb.application.entity.InstructionEntity;
 import com.mb.application.entity.RecipeEntity;
+import com.mb.application.repository.InstructionDao;
+import com.mb.application.util.Util;
+import com.mb.server.model.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,92 +39,115 @@ import com.mb.server.model.Recipe;
 @Service
 public class RecipeService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RecipeService.class);
-	private final static String ID = "id";
-	private final static String ASC = "ASC";
+    private static final Logger LOG = LoggerFactory.getLogger(RecipeService.class);
+    private final static String ID = "id";
+    private final static String ASC = "ASC";
 
-	@Autowired
-	RecipeDao recipeDao;
+    @Autowired
+    RecipeDao recipeDao;
 
-	@Autowired
-	IngredientDao ingredientDao;
+    @Autowired
+    IngredientDao ingredientDao;
 
-	public long getRecipesCount() {
-		return recipeDao.count();
-	}
+    @Autowired
+    InstructionDao instructionDao;
 
-	public List<Recipe> listRecipes(int pageNo, int pageSize) {
-		Sort sort = Sort.by(ID).ascending();
+    public long getRecipesCount() {
+        return recipeDao.count();
+    }
 
-		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+    public List<Recipe> listRecipes(int pageNo, int pageSize) {
+        Sort sort = Sort.by(ID).ascending();
 
-		Page<RecipeEntity> recipes = recipeDao.findAll(pageable);
-		return recipes.stream().map(this::buildRecipeModel)
-				.collect(Collectors.toList());
-	}
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
-	public Recipe getRecipe(String id) {
-		Optional<RecipeEntity> recipeEntity = recipeDao.findById(Integer.valueOf(id));
-		return recipeEntity.map(this::buildRecipeModel).orElse(null);
-	}
+        Page<RecipeEntity> recipes = recipeDao.findAll(pageable);
+        return recipes.stream().map(this::buildRecipeModel).collect(Collectors.toList());
+    }
 
-	public Recipe createRecipe(Recipe recipe) {
+    public Recipe getRecipe(String id) {
+        Optional<RecipeEntity> recipeEntity = recipeDao.findById(Integer.valueOf(id));
+        return recipeEntity.map(this::buildRecipeModel).orElse(null);
+    }
 
-		RecipeEntity recipeEntity = new RecipeEntity();
-		recipeEntity.setId(recipe.getId());
-		recipeEntity.setName(recipe.getName());
-		recipeEntity.setUrl(recipe.getUrl());
-		recipeEntity.setCategory(recipe.getCategory());
+    public Recipe createRecipe(Recipe recipe) {
 
-		RecipeEntity savedRecipe = recipeDao.save(recipeEntity);
+        RecipeEntity recipeEntity = new RecipeEntity();
+        recipeEntity.setId(recipe.getId());
+        recipeEntity.setName(recipe.getName());
+        recipeEntity.setUrl(recipe.getUrl());
+        recipeEntity.setCategory(recipe.getCategory());
 
-		return buildRecipeModel(savedRecipe );
+        RecipeEntity savedRecipe = recipeDao.save(recipeEntity);
 
-	}
+        return buildRecipeModel(savedRecipe);
 
-	public int updateRecipe(String id, Recipe recipe) {
-		RecipeEntity recipeEntity = new RecipeEntity();
+    }
 
-		recipeEntity.setId(Integer.valueOf(id));
-		recipeEntity.setName(recipe.getName());
-		recipeEntity.setCategory(recipe.getCategory());
+    public int updateRecipe(String id, Recipe recipe) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        RecipeEntity recipeEntity = new RecipeEntity();
+        String recipeString;
+        try {
+            recipeString = objectMapper.writeValueAsString(recipe);
+            recipeEntity = objectMapper.readValue(recipeString, RecipeEntity.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(String.format("Error during conversion to String : {}",e));
+        }
 
-		return recipeDao.save(recipeEntity).getId();
+        return recipeDao.save(recipeEntity).getId();
 
-	}
+    }
 
-	public void deleteRecipe(String id) {
-		Recipe recipe = getRecipe(id);
-		if (recipe == null) {
-			return;
-		}
-		recipeDao.deleteById(Integer.valueOf(id));
-	}
+    public void deleteRecipe(String id) {
+        Recipe recipe = getRecipe(id);
+        if (recipe == null) {
+            return;
+        }
+        recipeDao.deleteById(Integer.valueOf(id));
+    }
 
-	private Recipe buildRecipeModel(RecipeEntity recipeEntity) {
-		Recipe recipe = new Recipe();
+    private Recipe buildRecipeModel(RecipeEntity recipeEntity) {
+        Recipe recipe = new Recipe();
 
-		recipe.setId(recipeEntity.getId());
-		recipe.setName(recipeEntity.getName());
-		recipe.setCategory(recipeEntity.getCategory());
-		recipe.setUrl(recipeEntity.getUrl());
-		List<Ingredient> ingredients = ingredientDao.findByRecipeId(recipe.getId()).stream()
-				.map(this::buildIngredientModel).collect(Collectors.toList());
-		recipe.setIngredients(ingredients);
+        recipe.setId(recipeEntity.getId());
+        recipe.setName(recipeEntity.getName());
+        recipe.setCategory(recipeEntity.getCategory());
+        recipe.setUrl(recipeEntity.getUrl());
+        recipe.setImage(recipeEntity.getImage());
+        recipe.setDescription(recipeEntity.getDescription());
+        List<Ingredient> ingredients = ingredientDao.findByRecipeId(recipe.getId()).stream()
+                .map(this::buildIngredientModel).filter(Util.distinctByKey(Ingredient::getName))
+                .collect(Collectors.toList());
+        recipe.setIngredients(ingredients);
+        List<Instruction> instructions = instructionDao
+                .findByRecipeId(recipe.getId()).stream().map(this::buildInstructionModel).filter(Util
+                        .distinctByKey(Instruction::getDescription).and(Util.distinctByKey(Instruction::getPosition)))
+                .collect(Collectors.toList());
+        recipe.setInstructions(instructions);
 
+        return recipe;
+    }
 
-		return recipe;
-	}
+    private Ingredient buildIngredientModel(IngredientEntity ingredientEntity) {
+        Ingredient ingredient = new Ingredient();
 
-	private Ingredient buildIngredientModel(IngredientEntity ingredientEntity) {
-		Ingredient ingredient = new Ingredient();
+        ingredient.setId(ingredientEntity.getId());
+        ingredient.setName(ingredientEntity.getName()); 
+        ingredient.setSubtitle(ingredientEntity.getSubtitle());
+        ingredient.setMeasure(ingredientEntity.getMeasure());
 
-		ingredient.setId(ingredientEntity.getId());
-		ingredient.setName(ingredientEntity.getName());
-		ingredient.setSubtitle(ingredientEntity.getSubtitle());
-		ingredient.setMeasure(ingredientEntity.getMeasure());
+        return ingredient;
+    }
 
-		return ingredient;
-	}
+    private Instruction buildInstructionModel(InstructionEntity instructionEntity) {
+        Instruction instruction = new Instruction();
+
+        instruction.setId(instructionEntity.getId());
+        instruction.setDescription(instructionEntity.getDescription());
+        instruction.setPosition(String.valueOf(Integer.parseInt(instructionEntity.getPos())+1));
+
+        return instruction;
+    }
 
 }

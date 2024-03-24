@@ -1,9 +1,61 @@
-<div *ngIf="recipe">
-    <h2>{{recipe.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{recipe.id}}</div>
-    <div>
-      <label for="recipe-name">Recipe name: </label>
-      <input id="recipe-name" [(ngModel)]="recipe.name" placeholder="Recipe name"/>
+<div *ngIf="!loading" class="card flex justify-content-center" style="padding: 100px;">
+    <header *ngIf="!editMode" class="edit-button">
+        <p-button label="Edit" icon="pi pi-pencil" (onClick)="edit()"></p-button>
+    </header>
+    <div class="card flex justify-content-center">
+            <img [src]="imagePath"/>
+            <h1>{{recipe.name}}</h1>
     </div>
-    <button type="button" (click)="goBack()">go back</button>
-  </div>
+    
+    <textarea rows="5" cols="100" pInputTextarea [autoResize]="true" [(ngModel)]="recipe.description" [disabled]="!editMode" style="width: 100%;"></textarea>
+    <table width="50%" style="border: solid; border-radius: 10px; margin-left: auto;margin-right: auto;" >
+        <thead>
+            <tr>
+                <th style="margin: 10px;">
+                    <h4>Ingredients
+                    </h4>
+                </th> 
+            </tr>
+        </thead>
+        <tbody *ngFor="let ingredient of recipe.ingredients; let i = index">
+            <tr>
+                <td>
+                    <span 
+                      [textContent]="ingredient.measure"
+                      [attr.contenteditable]="editMode" 
+                      (input)="onIngredientMeasureInput($event, i)"
+                    ></span>&nbsp;
+                    <span 
+                      [textContent]="ingredient.name"
+                      [attr.contenteditable]="editMode" 
+                      (input)="onIngredientNameInput($event, i)"
+                    ></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table width="50%" style="border: solid; border-radius: 10px; margin-left: auto;margin-right: auto;" >
+        <thead>
+            <tr>
+                <th style="margin: 10px;">
+                    <h4>Instuctions
+                    </h4>
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let instruction of recipe.instructions; let i = index">
+            <tr>
+                <td>
+                    <span>{{instruction.position}}. </span>&nbsp;
+                    <span [attr.contenteditable]="editMode" [textContent]="instruction.description" (input)="onInstDescrChanged($event,i)">{{instruction.description}}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <footer *ngIf="editMode" class="edit-button">
+        <p-button label="Cancel" styleClass="p-button-outlined p-button-secondary" (onClick)="cancel()"></p-button>
+        <p-button label="Save" icon="pi pi-save" (onClick)="save()"></p-button>
+    </footer>
+</div>
