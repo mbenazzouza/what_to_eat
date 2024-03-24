@@ -39,7 +39,7 @@ public class InstructionService {
 
     public Instruction createInstruction(Instruction instruction) {
         InstructionEntity instructionEntity = new InstructionEntity();
-        instructionEntity.setInstructionDescription(instruction.getDescription());
+        instructionEntity.setDescription(instruction.getDescription());
 
         InstructionEntity created = instructionDao.save(instructionEntity);
         return buildInstructionModel(created);
@@ -49,7 +49,7 @@ public class InstructionService {
         InstructionEntity instructionEntity = new InstructionEntity();
 
         instructionEntity.setId(instruction.getId());
-        instructionEntity.setInstructionDescription(instruction.getDescription());
+        instructionEntity.setDescription(instruction.getDescription());
         instructionEntity.setPos(instruction.getPosition());
 
         int updatedId = instructionDao.save(instructionEntity).getId();
@@ -69,7 +69,7 @@ public class InstructionService {
         Instruction instruction = new Instruction();
 
         instruction.setId(instructionEntity.getId());
-        instruction.setDescription(instructionEntity.getInstructionDescription());
+        instruction.setDescription(instructionEntity.getDescription());
         instruction.setPosition(instructionEntity.getPos());
 
         return instruction;

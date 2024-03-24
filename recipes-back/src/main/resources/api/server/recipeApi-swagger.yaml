@@ -1095,10 +1095,6 @@ components:
             measure:
               type: string
               description: measure of the ingredient
-            image/png:
-              type: string
-              format: binary
-              description: image of the ingredient
             subtitle:
               type: string
               description: subtitles, if present of the ingredient
@@ -1114,17 +1110,9 @@ components:
             description:
               type: string
               description: name of the instruction
-            image/png:
-              type: string
-              format: binary
-              description: image of the instruction
             position:
               type: string
               description: subtitles, if present of the instruction
-            recipes:
-              type: array
-              items:
-                $ref: '#/components/schemas/Recipe'
     Error:
       required:
         - code

@@ -13,6 +13,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mb.application.entity.IngredientEntity;
 import com.mb.application.entity.InstructionEntity;
 import com.mb.application.entity.RecipeEntity;
@@ -83,11 +85,15 @@ public class RecipeService {
     }
 
     public int updateRecipe(String id, Recipe recipe) {
+        ObjectMapper objectMapper = new ObjectMapper();
         RecipeEntity recipeEntity = new RecipeEntity();
-
-        recipeEntity.setId(Integer.valueOf(id));
-        recipeEntity.setName(recipe.getName());
-        recipeEntity.setCategory(recipe.getCategory());
+        String recipeString;
+        try {
+            recipeString = objectMapper.writeValueAsString(recipe);
+            recipeEntity = objectMapper.readValue(recipeString, RecipeEntity.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(String.format("Error during conversion to String : {}",e));
+        }
 
         return recipeDao.save(recipeEntity).getId();
 
@@ -127,7 +133,7 @@ public class RecipeService {
         Ingredient ingredient = new Ingredient();
 
         ingredient.setId(ingredientEntity.getId());
-        ingredient.setName(ingredientEntity.getName());
+        ingredient.setName(ingredientEntity.getName()); 
         ingredient.setSubtitle(ingredientEntity.getSubtitle());
         ingredient.setMeasure(ingredientEntity.getMeasure());
 
@@ -138,8 +144,8 @@ public class RecipeService {
         Instruction instruction = new Instruction();
 
         instruction.setId(instructionEntity.getId());
-        instruction.setDescription(instructionEntity.getInstructionDescription());
-        instruction.setPosition(instructionEntity.getPos());
+        instruction.setDescription(instructionEntity.getDescription());
+        instruction.setPosition(String.valueOf(Integer.parseInt(instructionEntity.getPos())+1));
 
         return instruction;
     }

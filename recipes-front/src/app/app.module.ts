@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, forwardRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,10 @@ import { RelatedRecipesComponent } from './ingredients/related-recipes/related-r
 import {MatCardModule} from '@angular/material/card';
 
 import {MatButtonModule} from '@angular/material/button';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ImageModule } from 'primeng/image';
+import { NgsContenteditableModule } from '@ng-stack/contenteditable';
 
 @NgModule({
   declarations: [
@@ -37,9 +41,20 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule,
     PanelModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    InputTextareaModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ImageModule,
+    NgsContenteditableModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: RecipeDetailComponent,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

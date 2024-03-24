@@ -1,16 +1,10 @@
-<p-table [value]="recipes"
-[paginator]="true"
-[rows]="5"
-[showCurrentPageReport]="true"
-[tableStyle]="{ 'min-width': '50rem' }"
-currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-[rowsPerPageOptions]="[10, 25, 50]">
-    <ng-template pTemplate="header">
+<div class="recipes-table">
+    <p-table [value]="recipes" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }" [columns]="cols"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 25, 50, 100]">
+    <ng-template pTemplate="header" let-columns>
         <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>page</th>
-            <th>category</th>
+            <th *ngFor="let col of columns; let idx=index;" >{{col.header}}</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-recipe>
@@ -19,16 +13,11 @@ currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             <td>
                 <a [routerLink]="['detail', recipe.id]" routerLinkActive="active">{{recipe.name}}</a>
             </td>
-            <td>
-               <a href="{{recipe.url}}">{{recipe.name}}</a>
-            </td>
             <td>{{recipe.category}}</td>
+            <td>
+                <img [src]="recipe.imagePath"/>
+            </td>
         </tr>
     </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-    </ng-template>
 </p-table>
+</div>

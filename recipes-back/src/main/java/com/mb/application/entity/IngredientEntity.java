@@ -1,5 +1,8 @@
 package com.mb.application.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "ingredient")
 public class IngredientEntity {
@@ -31,43 +36,6 @@ public class IngredientEntity {
     @JoinColumn(name = "recipeid")
     public RecipeEntity recipe;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMeasure() {
-        return measure;
-    }
-
-    public void setMeasure(String measure) {
-        this.measure = measure;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public RecipeEntity getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(RecipeEntity recipe) {
-        this.recipe = recipe;
-    }
+    @Column(name = "recipe_id", length = 200)
+    private String recipe_id;
 }

@@ -1,13 +1,20 @@
 package com.mb.application.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "recipe", schema = "main", catalog = "")
 public class RecipeEntity {
@@ -33,53 +40,13 @@ public class RecipeEntity {
     @Column(name = "description", nullable = true)
     private String description;
 
-    public Integer getId() {
-        return id;
-    }
+    @OneToMany(mappedBy="recipe")
+    private List<IngredientEntity> ingredients;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @OneToMany(mappedBy="recipe")
+    private List<InstructionEntity> instructions;
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @Override
     public boolean equals(Object o) {

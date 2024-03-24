@@ -4,6 +4,7 @@ import { Recipe } from './recipe';
 import { RecipeService } from '../_services/recipe.service';
 import { Column } from './column';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-recipes',
@@ -19,27 +20,33 @@ export class RecipesComponent implements OnInit {
       size: 150,
     }
   });
+  
+  imagePath!: SafeResourceUrl;
 
   recipes!: Recipe[];
-  
   cols!: Column[];
   
 
   constructor(private recipeService: RecipeService, 
-    private router: Router
-    ) {}
+              private router: Router,
+              private sanitizer: DomSanitizer
+              ) {}
 
   ngOnInit(): void {
     this.recipeService.getRecipes().subscribe((data) => {
       console.log(data);
       this.recipes = data;
+      this.recipes.forEach(recipe =>{
+      recipe.imagePath = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + recipe.image);
+
+      });
     });
 
     this.cols = [
       { field: 'id', header: 'Id' },
       { field: 'name', header: 'Name' },
       { field: 'category', header: 'Category' },
-      { field: 'page', header: 'Page' }
+      { field: 'image', header: 'Image' },
   ];
     
   }

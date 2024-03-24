@@ -51,7 +51,8 @@ public class RecipeApiController implements RecipesApi {
 
     public ResponseEntity<Recipe> updateRecipe(@PathVariable("id") String id, @RequestBody Recipe recipe) {
         int updatedId = rs.updateRecipe(id, recipe);
-        return retrieveRecipe(Integer.toString(updatedId));
+        ResponseEntity<Recipe>  updatedRecipe = retrieveRecipe(Integer.toString(updatedId));
+        return updatedRecipe;
     }
 
 }

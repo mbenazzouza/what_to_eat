@@ -22,4 +22,8 @@ export class RecipeService {
   public getRecipe(id : number) : Observable<any> {
     return this.httpClient.get('/api/v1/recipes/' + id);
   }
+
+  public saveRecipe(id: number, recipe: Recipe): Observable<any> {
+    return this.httpClient.put('/api/v1/recipes/' + id, recipe);
+  }
 }
