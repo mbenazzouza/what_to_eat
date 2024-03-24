@@ -35,11 +35,13 @@ out/
 *.ipr
 *.iws
 
-##############################
-## Visual Studio Code
-##############################
-.vscode/
-.code-workspace
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 
 # dependencies
 recipes-front/node_modules
